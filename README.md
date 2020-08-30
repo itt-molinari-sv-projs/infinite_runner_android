@@ -1,2 +1,2 @@
-# infinite_runner_android
-A simple runner game based on the NES game Road Fighter.
+# infinite_runner_android/documentation
+Documentation of the game.
