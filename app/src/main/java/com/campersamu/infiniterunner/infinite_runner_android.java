@@ -56,7 +56,8 @@ public class infinite_runner_android extends PApplet {
     }
 
     public void backPressed() {
-        g.gameState = "mainmenu";
+        if (g.gameState != "mainmenu") g.gameState = "mainmenu";
+        else exit();
     }
 
     public void mousePressed() {    //rilevamento della pressione dei bottoni
@@ -433,6 +434,7 @@ public class infinite_runner_android extends PApplet {
         boolean goLeft = false, goRight = false, goSprint = false;  //variabile per ottenere l'imput dell'utente, aggiornate in keyPressed() e keyReleased(). Serve per aggirare un bug nell'input di Processing
 
         float x, y;  //coordinate dell'oggetto comandato
+        float smX;   //coordinata x salvata per il mouse movement
         float accelleration;  //accellerazione dell'oggetto comandato
         float sprintaccelleration;  //accellerazione veloce (sprint) dell'oggetto comandato
         int getKey, oldKey;  //variabili usate dal remapper per sapere se il tasto per un'azione cambia
@@ -580,12 +582,26 @@ public class infinite_runner_android extends PApplet {
             return c;
         }
 
+        @SuppressWarnings("SuspiciousNameCombination")
         public void mouseControls() {  //Controlli con il mouse
-            x = mouseX;
+            if (touchIsStarted && smX != 0) {
+                if (mouseX > smX) {
+                    x += dist(mouseX, mouseX, smX, smX);
+                } else if (mouseX < smX) {
+                    x -= dist(mouseX, mouseX, smX, smX);
+                }
+            }
+            smX = mouseX;
+
+
             stroke(0);
             strokeWeight(3);
-            if (touchIsStarted)
-                line(x, y, mouseX, mouseY);
+            if (!touchIsStarted) {
+                smX = 0;
+            }
+
+            if (x < 0) x = 0;
+            if (x > width) x = width;
         }
 
         @SuppressWarnings("unused")
@@ -940,6 +956,7 @@ public class infinite_runner_android extends PApplet {
                             }
                         }
                     }
+                    c.x = 0;
 
                     //controlli giocatore
                     c.attachToObject(p.x, p.y);
@@ -1039,11 +1056,13 @@ public class infinite_runner_android extends PApplet {
                     break;
                 case "mainmenu":   //Stato menù principale
                     displayBackgroundEnemies();
-                    textAlign(CENTER);
+                    textAlign(CENTER, CENTER);
                     textSize(80 * width / 1000f);
+                    fill(0xffb7b7b7);
+                    rectMode(CENTER);
+                    rect(width / 2f, height / 3.5f, 200 + height / 4f, 80 * width / 1000f);
                     fill(0xffFF0000);
                     text("INFINITE RUNNER", width / 2f, height / 3.5f);
-                    rectMode(CENTER);
                     fill(0xffFF0000);
                     rect(width / 2f, 20, 180 * width / 520f, 50 * height / 520f, 5); //rect record
 
