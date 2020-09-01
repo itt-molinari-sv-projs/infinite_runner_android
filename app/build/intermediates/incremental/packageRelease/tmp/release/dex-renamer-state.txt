@@ -1,4 +1,0 @@
-#Sun Aug 30 20:38:42 CEST 2020
-base.0=D\:\\Documents\\Processing\\projects\\infinite_runner_android\\android\\app\\build\\intermediates\\dex\\release\\out\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
